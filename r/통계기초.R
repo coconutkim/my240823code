@@ -1,8 +1,14 @@
-?c()
+#상관과 회귀
 
-stu_height<-c(166,168,170,172,174)
+df <-read.csv(choose.files(),header = TRUE)
+              
+cor(df$adv,df$sales)
 
-m <-mean(stu_height)
+?lm
 
-var(stu_height)
-sd(stu_height)
+linear_model1 <- lm(sales~adv,df)
+
+linear_model1
+
+summary(linear_model1)
+
