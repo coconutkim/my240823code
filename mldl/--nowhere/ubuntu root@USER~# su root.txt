@@ -1,0 +1,152 @@
+# 우분투 깃 연동
+
+#1. 보안성
+암호화된 통신: SSH (Secure Shell) 프로토콜은 암호화된 채널을 통해 데이터를 주고받을 수 있게 해줍니다. 이는 GitHub와의 통신이 제3자에 의해 가로채이거나 조작되지 않도록 보호합니다.
+비밀번호 노출 방지: SSH 키를 사용하면 GitHub와 연결할 때마다 비밀번호를 입력할 필요가 없습니다. 이는 비밀번호가 노출되거나 유출될 위험을 줄여줍니다.
+2. 편의성
+자동 인증: SSH 키를 설정하면 GitHub에 연결할 때마다 사용자 인증이 자동으로 이루어집니다. 이로 인해 매번 비밀번호를 입력하는 번거로움이 사라지며, 작업 속도가 빨라집니다.
+여러 키 관리: SSH 키를 사용하면 하나의 GitHub 계정에 대해 여러 컴퓨터에서 각기 다른 SSH 키를 사용할 수 있습니다. 이는 여러 시스템에서 작업할 때 유용합니다.
+
+
+root@USER:~# su root
+root@USER:~# sudo apt update
+Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Hit:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [17.8 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [26.0 kB]
+Fetched 301 kB in 2s (142 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+55 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@USER:~# sudo apt install git
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+git is already the newest version (1:2.34.1-1ubuntu1.11).
+git set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 55 not upgraded.
+root@USER:~# git config --global user.name "Your Name"
+ --global user.email "your.email@example.com"
+root@USER:~# git config --global user.email "your.email@example.com"
+root@USER:~# git config --global user.name "coconutkim"
+root@USER:~# git config --global user.email "achaeyeon18@gmail.com"
+root@USER:~# git config list
+error: key does not contain a section: list
+root@USER:~# git config --list
+user.name=coconutkim
+user.email=achaeyeon18@gmail.com
+root@USER:~# git --version
+git version 2.34.1
+root@USER:~# ssh-keygen --help
+unknown option -- -
+usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                  [-m format] [-N new_passphrase] [-O option]
+                  [-t dsa | ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+                  [-w provider] [-Z cipher]
+       ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+                   [-P old_passphrase] [-Z cipher]
+       ssh-keygen -i [-f input_keyfile] [-m key_format]
+       ssh-keygen -e [-f input_keyfile] [-m key_format]
+       ssh-keygen -y [-f input_keyfile]
+       ssh-keygen -c [-a rounds] [-C comment] [-f keyfile] [-P passphrase]
+       ssh-keygen -l [-v] [-E fingerprint_hash] [-f input_keyfile]
+       ssh-keygen -B [-f input_keyfile]
+       ssh-keygen -D pkcs11
+       ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+       ssh-keygen -H [-f known_hosts_file]
+       ssh-keygen -K [-a rounds] [-w provider]
+       ssh-keygen -R hostname [-f known_hosts_file]
+       ssh-keygen -r hostname [-g] [-f input_keyfile]
+       ssh-keygen -M generate [-O option] output_file
+       ssh-keygen -M screen [-f input_file] [-O option] output_file
+       ssh-keygen -I certificate_identity -s ca_key [-hU] [-D pkcs11_provider]
+                  [-n principals] [-O option] [-V validity_interval]
+                  [-z serial_number] file ...
+       ssh-keygen -L [-f input_keyfile]
+       ssh-keygen -A [-a rounds] [-f prefix_path]
+       ssh-keygen -k -f krl_file [-u] [-s ca_public] [-z version_number]
+                  file ...
+       ssh-keygen -Q [-l] -f krl_file [file ...]
+       ssh-keygen -Y find-principals -s signature_file -f allowed_signers_file
+       ssh-keygen -Y match-principals -I signer_identity -f allowed_signers_file
+       ssh-keygen -Y check-novalidate -n namespace -s signature_file
+       ssh-keygen -Y sign -f key_file -n namespace file [-O option] ...
+       ssh-keygen -Y verify -f allowed_signers_file -I signer_identity
+                  -n namespace -s signature_file [-r krl_file] [-O option]
+root@USER:~# cls
+Command 'cls' not found, but there are 18 similar ones.
+root@USER:~# ssh-keygen -t rsa -b 4096 -C "achaeyeon18@gmail.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Created directory '/root/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa
+Your public key has been saved in /root/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:MPbiH7S//ogEoHjimkwTrxd4raaNXFeyWtRxDXNyBiQ achaeyeon18@gmail.com
+The key's randomart image is:
++---[RSA 4096]----+
+|       E.*.+     |
+|        . O      |
+|    . +. . .     |
+| . . o.+o        |
+|o.+ .oooS        |
+|.+oo.o++ .       |
+| +.oo+. +        |
+|=.*++  o + .     |
+|o*+o    o.=o.    |
++----[SHA256]-----+
+root@USER:~# ls
+dockerTest  pyex  snap
+root@USER:~# cd ~
+root@USER:~# ls
+dockerTest  pyex  snap
+root@USER:~# ls -al
+total 64
+drwx------ 11 root root 4096 Aug 23 14:02 .
+drwxr-xr-x 19 root root 4096 Aug 23 12:20 ..
+-rw-------  1 root root 2684 Aug 23 13:54 .bash_history
+-rw-r--r--  1 root root 3106 Oct 15  2021 .bashrc
+drwx------  3 root root 4096 Aug 23 12:34 .cache
+-rw-r--r--  1 root root   57 Aug 23 13:55 .gitconfig
+drwxr-xr-x  3 root root 4096 Aug 23 12:44 .ipython
+drwxr-xr-x  3 root root 4096 Aug 23 12:43 .jupyter
+drwxr-xr-x  2 root root 4096 Aug 23 12:46 .keras
+-rw-------  1 root root   20 Aug 23 13:56 .lesshst
+drwxr-xr-x  3 root root 4096 Aug 23 12:36 .local
+-rw-r--r--  1 root root    0 Aug 23 09:38 .motd_shown
+-rw-r--r--  1 root root  161 Jul  9  2019 .profile
+drwx------  2 root root 4096 Aug 23 14:03 .ssh
+drwxr-xr-x  2 root root 4096 Aug 23 12:28 dockerTest
+drwxr-xr-x  5 root root 4096 Aug 23 12:43 pyex
+drwx------  3 root root 4096 Aug 12 16:36 snap
+root@USER:~# cd .ssh
+root@USER:~/.ssh# ls -al
+total 16
+drwx------  2 root root 4096 Aug 23 14:03 .
+drwx------ 11 root root 4096 Aug 23 14:02 ..
+-rw-------  1 root root 3389 Aug 23 14:03 id_rsa
+-rw-r--r--  1 root root  747 Aug 23 14:03 id_rsa.pub
+
+root@USER:~/.ssh# man eval
+No manual entry for eval
+root@USER:~/.ssh# eval "$(ssh-agent -s)"
+Agent pid 29382
+root@USER:~/.ssh# ssh-add ~/.ssh/id_rsa
+Identity added: /root/.ssh/id_rsa (achaeyeon18@gmail.com)
+root@USER:~/.ssh# cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDUSkKmZznoAnELlIdPPF7N0rYydZMh8xezvBcv0CKDZBOH7n6GnV9XpMCzDUeg5eBlASgMtePYq730VWZBg0B56GvbSrBvDaG7s98vL5K1MK6ND2T/6nEalcjuTRsuUbW2Zwt7N/3DmhM1eTbCLZbDB+C8lCi5Yl2EDzsVYg1h7OYdsKHsNBEizB+gVGgYWriB3KdVqDPwli+Xv96RxxLUO8Gaia1TKlBTgR7zUt/c7Do6cBUt3XUenrPgxD6qsJKiAEammZFOe4EnsOTDGm02Gm/+ohyMj6vq4ZrBu82jnJM5Y4pJIXJ8hFIM+opw2HmlM1enVbejOv7vtilB9kXGPNF6XbqjQWgCeEGEhl7Y9eRn1p266jm2Tpb1s5r37FyRS/JMjPsYSrbDggyaDnmwUDlsf0WwJh5E95Lb7pmK9R1xVM+d5YSZS8aB4vkA56Qxb0YZHVfPPw8epCdUlSOQn0Fh62UFag72eqEpE4m4vjH0+WH7L2fJ6lEfHBxnkdMG2l68NIEOV+7twx9rxdQDtDUyeKuJNwqYvEEEaJ1D4rPrEzVGLx8uUmHVO9ep1v+dIoarfk3aVlOPNdfoGcw6vmzgkTsb0F7RNpI87A0nZrFpMIg5+L3nC9HEk+ZqzChVwEb/QcrvMSU284dD2DX2pXfnFkMkf5V5uCfIvw8BPw== achaeyeon18@gmail.com
+
+root@USER:~/.ssh# man ssh
+root@USER:~/.ssh#
+root@USER:~/.ssh# ssh -T git@github.com
+The authenticity of host 'github.com (20.200.245.247)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Hi coconutkim! You've successfully authenticated, but GitHub does not provide shell access.
